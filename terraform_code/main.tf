@@ -1,6 +1,6 @@
 # VPC Creation
 resource "aws_vpc" "my_vpc" {
-  cidr_block = var.cidr_blocks
+  cidr_block = "10.1.0.0/16"
   tags = {
     Name = "my_vpc"
   }
@@ -41,7 +41,7 @@ resource "aws_internet_gateway" "my_igw" {
 
 resource "aws_route_table" "my_pub_rt" {
   vpc_id = aws_vpc.my_vpc.id
-  route = {
+  route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.my_igw.id 
   }
@@ -64,7 +64,7 @@ resource "aws_route_table_association" "rta_pub_sub_02" {
 # AWS EC2 Instance creation
 resource "aws_instance" "server-1" {
   ami = var.ami
-  instance_type = var.key_name
+  instance_type = var.instance_type
   key_name = var.key_name
   vpc_security_group_ids = [aws_security_group.my_sg.id]
   subnet_id = aws_subnet.my_pub_sub_01.id
