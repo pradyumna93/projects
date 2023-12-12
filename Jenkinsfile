@@ -4,6 +4,9 @@ pipeline{
             label 'maven'
         }
     }
+    environment{
+        PATH = "/opt/apache-maven-3.8.8/bin:$PATH"
+    }
     stages{
         stage('clean-workspace'){
             steps{
@@ -12,17 +15,21 @@ pipeline{
         }
         stage('clone-code'){
             steps{
-                git branch: 'main', url: https://github.com/pradyumna93/projects.git
+                git branch: 'main', url: 'https://github.com/pradyumna93/projects.git'
             }
         }
-        stage("bild"){
+        stage("package"){
             steps{
-                sh 'mvn clen install'
+                sh 'mvn clean deploy -Dmaven.test.skip=true'
             }
         }
-        stage("package")
-        steps{
-            sh 'mvn clean package'
+        stage("test"){
+            steps{
+                echo "----------- unit test started ----------"
+                sh 'mvn surefire-report:report'
+                 echo "----------- unit test Complted ----------"
+            }
         }
+        
     }
-}
+}    
