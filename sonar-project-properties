@@ -1,0 +1,9 @@
+sonar.verbose=true
+sonar.organization=real_sonar
+sonar.projectKey=real-sonar_new-project
+sonar.projectName=new_project
+sonar.language=java
+sonar.sourceEncoding=UTF-8
+sonar.sources=.
+sonar.java.binaries=target/classes
+sonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
